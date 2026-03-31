@@ -65,7 +65,8 @@ class linear_layer:
         ################################################################################
         # TODO: Implement the linear forward pass. Store the result in forward_output  #
         ################################################################################
-
+        # linear : u = Wx + b
+        forward_output = np.dot(X, self.params['W']) + self.params['b']
         return forward_output
 
     def backward(self, X, grad):
