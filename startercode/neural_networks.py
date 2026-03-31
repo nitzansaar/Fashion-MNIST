@@ -61,10 +61,6 @@ class linear_layer:
             Return:
             - forward_output: A N-by-output_D numpy array, where each 'row' is an output example/instance.
         """
-
-        ################################################################################
-        # TODO: Implement the linear forward pass. Store the result in forward_output  #
-        ################################################################################
         # linear : u = Wx + b
         forward_output = np.dot(X, self.params['W']) + self.params['b']
         return forward_output
@@ -86,14 +82,10 @@ class linear_layer:
             - backward_output: A N-by-input_D numpy array, where each 'row' (say row i) is the partial derivatives of the mini-batch loss w.r.t. X[i].
         """
 
-        #################################################################################################
-        # TODO: Implement the backward pass (i.e., compute the following three terms)
-        #   - self.gradient['W'] (input_D-by-output_D numpy array, the gradient of the mini-batch loss w.r.t. self.params['W'])
-        #   - self.gradient['b'] (1-by-output_D numpy array, the gradient of the mini-batch loss w.r.t. self.params['b'])
-        #   - backward_output (N-by-input_D numpy array, the gradient of the mini-batch loss w.r.t. X)
-        # only return backward_output, but need to compute self.gradient['W'] and self.gradient['b']
-        #################################################################################################
-
+    
+        self.gradient['W'] = X.T @ grad
+        self.gradient['b'] = np.sum(grad, axis=0, keepdims=True)
+        backward_output = grad @ self.gradient['W'].T
         return backward_output
 
 
