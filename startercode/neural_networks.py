@@ -128,8 +128,8 @@ class relu:
         """
         # if X <=0 return 0 else return grad
         self.mask = (X > 0)
-        forward_output = np.maximum(0, X)
-        return forward_output
+        backward_output = grad * self.mask
+        return backward_output
 
 
 # 3. Mini-batch Gradient Descent Optimization
@@ -141,11 +141,6 @@ def miniBatchGradientDescent(model, _learning_rate):
             for key, _ in module.params.items():
                 # This is the gradient for the parameter named "key" in this module
                 g = module.gradient[key]
-
-                ####################################################################################
-                # TODO: update the model parameter module.params[key] by a step of gradient descent.
-                # Note again that the gradient is stored in g already.
-                ####################################################################################
                 module.params[key] -= _learning_rate * g
 
     return model
@@ -164,11 +159,8 @@ def forward_pass(model, x, y):
 # 4. Model backward pass
 def backward_pass(model, x, a1, h1, a2, y):
     grad_a2 = model['loss'].backward(a2, y)
-    ######################################################################################
-    # TODO: Call the backward methods of every layer in the model in reverse order.
-    # We have given the first and last backward calls (above and below this TODO block).
-    ######################################################################################
-
+    grad_h1 = model['L2'].backward(h1, grad_a2)
+    grad_a1 = model['nonlinear1'].backward(a1, grad_h1)
     grad_x = model['L1'].backward(x, grad_a1)
 
 
