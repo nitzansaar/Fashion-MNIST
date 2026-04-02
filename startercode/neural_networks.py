@@ -219,9 +219,9 @@ def gradient_checker(DataSet, model):
     # the first dimension of L1 weight and bias, and the first dimension of L2 weight and bias
     grad_dict = {}
     grad_dict["L1_W_grad_first_dim"] = model['L1'].gradient["W"][0][0]
-    grad_dict["L1_b_grad_first_dim"] = model['L1'].gradient["b"][0]
+    grad_dict["L1_b_grad_first_dim"] = model['L1'].gradient["b"][0][0]
     grad_dict["L2_W_grad_first_dim"] = model['L2'].gradient["W"][0][0]
-    grad_dict["L2_b_grad_first_dim"] = model['L2'].gradient["b"][0]
+    grad_dict["L2_b_grad_first_dim"] = model['L2'].gradient["b"][0][0]
 
     ### Gradients from approximation ###
     # the first dimension of L1 weight and bias, and the first dimension of L2 weight and bias
