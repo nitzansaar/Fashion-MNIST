@@ -81,11 +81,9 @@ class linear_layer:
             Return:
             - backward_output: A N-by-input_D numpy array, where each 'row' (say row i) is the partial derivatives of the mini-batch loss w.r.t. X[i].
         """
-
-    
         self.gradient['W'] = X.T @ grad
         self.gradient['b'] = np.sum(grad, axis=0, keepdims=True)
-        backward_output = grad @ self.gradient['W'].T
+        backward_output = grad @ self.params['W'].T
         return backward_output
 
 
@@ -112,11 +110,8 @@ class relu:
             Return:
             - forward_output: A numpy array of the same shape of X
         """
-
-        ################################################################################
-        # TODO: Implement the relu forward pass. Store the result in forward_output    #
-        ################################################################################
-
+        self.mask = (X > 0)
+        forward_output = np.maximum(0, X)
         return forward_output
 
     def backward(self, X, grad):
@@ -131,13 +126,10 @@ class relu:
             Return:
             - backward_output: A numpy array of the same shape as X, where each element is the partial derivative of the mini-batch loss w.r.t. the corresponding element in  X.
         """
-
-        ####################################################################################################
-        # TODO: Implement the backward pass
-        # You can use the mask created in the forward step.
-        ####################################################################################################
-
-        return backward_output
+        # if X <=0 return 0 else return grad
+        self.mask = (X > 0)
+        forward_output = np.maximum(0, X)
+        return forward_output
 
 
 # 3. Mini-batch Gradient Descent Optimization
