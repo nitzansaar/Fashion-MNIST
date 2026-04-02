@@ -240,11 +240,14 @@ def gradient_checker(DataSet, model):
         model[layer_name].params[param_name] += epsilon
         _, _, _, f_w_add_epsilon = forward_pass(model, x, y)
 
-        ######################################################################################
-        # TODO: Estimate the gradient of parameters from the loss function F(w + epsilon) and F(w - epsilon).
-        # Take one forward pass with w - epsilon
-        # Refer to the lecture notes for the exact equation for computing the approximate gradient
-        ######################################################################################
+    
+        model[layer_name].params[param_name] -= 2 * epsilon
+        _, _, _, f_w_sub_epsilon = forward_pass(model, x, y)
+
+        # Restore parameter to original value
+        model[layer_name].params[param_name] += epsilon
+
+        approximate_gradient = (f_w_add_epsilon - f_w_sub_epsilon) / (2 * epsilon_value)
 
         print("Check the gradient of %s in the %s layer from backpropagation: %f and from approximation: %f"
               % (param_name, layer_name, grad, approximate_gradient))
