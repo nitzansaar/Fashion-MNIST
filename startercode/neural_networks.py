@@ -146,6 +146,7 @@ def miniBatchGradientDescent(model, _learning_rate):
                 # TODO: update the model parameter module.params[key] by a step of gradient descent.
                 # Note again that the gradient is stored in g already.
                 ####################################################################################
+                module.params[key] -= _learning_rate * g
 
     return model
 
